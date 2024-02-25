@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Demo Home Page</title>
@@ -13,36 +13,40 @@
 <p>
     Welcome to Random Home Page
 </p>
-<hr>
 
-        <!--Display username and role-->
+
+<!--Display username and role-->
 
 <p>
-    User: <span sec:authentication="principal.username" ></span>
+    User: <span sec:authentication="principal.username"></span>
     <br><br>
     Role(s): <span sec:authentication="principal.authorities"></span>
 </p>
 
 <hr>
 
-<!--Add a link to point to leaders.... This is only for the managers to see-->
-<p>
-    <a th:href="@{/leaders}">Leadership Meeting</a>
-    Only for manager Peeps
-</p>
+<div sec:authorize="hasRole('MANAGER')">
+    <!--Add a link to point to leaders.... This is only for the managers to see-->
+    <p>
+        <a th:href="@{/leaders}">Leadership Meeting</a>
+        Only for manager Peeps
+    </p>
+</div>
 
-<!--Add a link to point to /leaders.... This is only for the admins to see-->
-<p>
-    <a th:href="@{/systems}">IT Systems Meeting</a>
-    Only for admin Peeps
-</p>
 
+<div sec:authorize="hasRole('ADMIN')">
+    <!--Add a link to point to /leaders.... This is only for the admins to see-->
+    <p>
+        <a th:href="@{/systems}">IT Systems Meeting</a>
+        Only for admin Peeps
+    </p>
+</div>
 
 <hr>
 
-        <!--        add login button -->
+<!--        add login button -->
 
-<form action="#" th:action="@{/logout}" method="POST" >
+<form action="#" th:action="@{/logout}" method="POST">
     <input type="submit" value="Logout">
 </form>
 </body>
